@@ -6,11 +6,6 @@ import psycopg2
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://spandana:spandanaabc@192.168.43.108/spandana_db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
-global obj
 
 class PerformCRUD(object):
 
@@ -84,17 +79,12 @@ class PerformCRUD(object):
             self.conn.commit()
 
 
-
-obj = PerformCRUD()
-
-
 @app.route('/', methods=['GET', 'POST'])
 def home():
-
-
+    obj = PerformCRUD()
 
     while True:
-        i = input("Select Create\\Read\\Update\\Delete :")
+        i = input("Select Create\\Read\\Update\\Delete : ")
         if i == 'create':
             status = create(obj)
         if i == 'read':
@@ -128,18 +118,6 @@ def update(obj):
 @app.route('/delete', methods=['DELETE'])
 def delete(obj):
     return obj.delete()
-
-
-
-# @app.route('/',methods=['POST', 'GET'])
-# def query():
-#     conn = psycopg2.connect("host='192.168.43.108' dbname=spandana_db user='spandana' password='spandanaabc'")
-#     cur = conn.cursor()
-#     cur.execute("CREATE TABLE IF NOT EXISTS films (title text, director text, year text);")
-#     cur.close()
-#     conn.commit()
-#     conn.close()
-#     return make_response(jsonify({'success': 1}))
 
 
 if __name__ == "__main__":
